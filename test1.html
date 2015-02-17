@@ -8,3 +8,8 @@
 <a href="test1.html">Test 1</a> - <a href="test2.html">Test 2</a> - <a href="test3.html">Test 3</a>
 
 <p>Question: Why is <em>angular</em> available in the <em>main1</em> module? I assumed that JSPM automatically removes globals. The problem here may be my assumption...</p>
+
+<p><em>angular</em> is run as a global, which means it defines the `window.angular` and then this is taken to be the module value (for `System.import('angular')`).</p>
+<p>Other modules are then able to access this global unfortunately, although that is not ideal.</p>
+<p>You are supposed to always directly import with `System.import` or `import angular from 'angular'` when wanting to reference angular.</p>
+<p>I've created an issue to consider removing the global here - https://github.com/systemjs/systemjs/issues/352, but there are other concerns too.</p>

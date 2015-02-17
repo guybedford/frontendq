@@ -8,3 +8,6 @@
 <a href="test1.html">Test 1</a> - <a href="test2.html">Test 2</a> - <a href="test3.html">Test 3</a>
 
 <p>Question: Here I see that angular is contained in the callback but how do I make the dependency available to other functions now? </p>
+<p>If you want to use a dynamic import for angular in the Bootstrap instead of in the static module tree, then your bootstrap method should call back on the import promise.</p>
+<p>Typically you want to always use the static tree (`import` and `export` syntax) because that will allow your modules to build into a bundle.</p>
+<p>The use case for a `System.import` in the bootstrap is usually for a router where you want to load the page you're navigating to only when you navigate</p>
