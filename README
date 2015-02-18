@@ -1,0 +1,10 @@
+npm install
+
+And then run gulp:
+
+node_modules/.bin/gulp
+
+or
+
+npm install -g gulp
+gulp
