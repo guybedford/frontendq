@@ -21,11 +21,17 @@ maps.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       resolve: {
         leaflet: function () {
           return Promise.all([
-            System.import('jspm_packages/npm/leaflet@0.7.3/dist/leaflet.css!'),
+            System.import('leaflet/dist/leaflet.css!'),
             System.import('leaflet')
               .then(function(leaflet) {
-                leaflet.Icon.Default.imagePath = '/jspm_packages/npm/leaflet@0.7.3/dist/images';
-                return leaflet;
+                return System.normalize('leaflet/dist/images')
+                .then(function(normalized) {
+                  return System.locate({ name: normalized, metadata: {} });
+                })
+                .then(function(address) {
+                  leaflet.Icon.Default.imagePath = address;
+                  return leaflet;
+                });
               })
           ]).then(function (results) {
             return results[1];

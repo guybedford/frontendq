@@ -37,9 +37,11 @@ gulp.task('default', ['build-dev']);
 gulp.task('build-dev', sequence('clean', 'install', ['browser-sync', 'html', 'js']));
 
 gulp.task('install', function () {
-  require('jspm').install(true);
+  // this is a promise, you probably want to make the gulp task dependent on its completion?
+  require('jspm').install(true, { lock: true });
 
   // QUESTION: Is there a better way to get to this functionality and/or should it be exposed via the API?
+  // not currently - we can add an API method for this certainly. I've created https://github.com/jspm/jspm-cli/issues/545
   require('jspm/lib/core').checkDlLoader();
 
   return gulp
