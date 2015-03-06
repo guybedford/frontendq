@@ -1,7 +1,7 @@
 /* @flow */
 'use strict';
 
-import 'angular';
+import angular from 'angular';
 
 var mapController = angular.module('mapControllerModule', []);
 
