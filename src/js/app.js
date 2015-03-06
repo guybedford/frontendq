@@ -25,15 +25,25 @@ maps.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             System.import('leaflet')
               .then(function(leaflet) {
                 return System.normalize('leaflet/dist/images')
-                .then(function(normalized) {
-                  return System.locate({ name: normalized, metadata: {} });
-                })
-                .then(function(address) {
-                  leaflet.Icon.Default.imagePath = address;
-                  return leaflet;
-                });
+                  .then(function(normalized) {
+                    return System.locate({name: normalized, metadata: {}});
+                  })
+                  .then(function(address) {
+                    // address => "http://localhost:3000/jspm_packages/npm/leaflet@0.7.3/dist/images.js
+                    // 1) The host bit must go
+                    // 2) The .js bit must go
+                    // QUESTION: Considering that this is the answer you've given I assume there's currently no better
+                    //           or easier way to locate resources within a required dependency and also do so extension
+                    //           independent (i.e. don't assume a .js extension)
+
+                    // This is from various StackOverflow posts...
+                    var parser = document.createElement('a');
+                    parser.href = address;
+                    leaflet.Icon.Default.imagePath = parser.pathname.replace('.js', '');
+                    return leaflet;
+                  });
               })
-          ]).then(function (results) {
+          ]).then(function(results) {
             return results[1];
           });
         }
@@ -44,8 +54,8 @@ maps.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
       templateUrl: 'partials/mapbox.html',
       controller: 'MapboxController',
       resolve: {
-        mapbox: function ($q) {
-          return "foo";
+        mapbox: function () {
+          return System.import('mapbox');
         }
       }
 
