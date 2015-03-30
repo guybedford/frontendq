@@ -66,3 +66,6 @@ maps.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     });
 
 });
+
+// do bootstrapping here
+angular.bootstrap(document, ['mapApp']);

@@ -10,6 +10,9 @@ Can I configure SystemJS to fall back to the non-bundled versions if the bundle 
 > Lars: Not sure if that makes sense but what I thought would make sense is a fallback mode. If it can't find a bundle
         (i.e. 404) just try if the unbundled dependencies are available.
 
+This is a good suggestion, but the problem is that it is not efficient for the network to try a URL and then if it
+fails to try another URL. Some users might end up using this behaviour in production without realising if we supported it.
+
 ### Q2: Bundle location
 
 When I create the bundle as above it is put into the `target` folder.
@@ -34,6 +37,9 @@ Lars:
   Angular complains about a missing mapApp. In the app.js I first import angular and then immediately define the mapApp.
   I have no idea what my mistake could be here...
 
+It turns out the orders were all set fine so this wasn't the race condition.
+
+Rather this was because the Angular bootstrap was running before all the modules had loaded. I've updated the code to use a manual bootstrap to avoid this.
 
 ### Q4: Transitive dependencies
 
